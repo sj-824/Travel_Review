@@ -12,4 +12,6 @@ urlpatterns = [
     path('detail_review/<int:pk>',views.detail_review, name = 'detail_review'),
     path('delete_review/<int:pk>',views.delete_review, name = 'delete_review'),
     path('list_review',views.list_review, name = 'list_review'),
+    path('detail/<int:pk>/plot',views.get_svg,name = 'plot'),
+    path('search_list/',views.search_list, name  = 'search_list'),
 ]

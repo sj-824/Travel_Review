@@ -110,7 +110,12 @@ class TravelModel(models.Model):
     travel_date = models.DateField(auto_now_add = True)
     stay_time = models.CharField(max_length = 10)
     useful_review_record = models.TextField()
-    user_value = models.CharField(max_length = 5)
     user_name = models.ForeignKey(User,to_field = 'username', on_delete=models.CASCADE)
 
+    VALUE_CATEGORY = ((1,1),(2,2),(3,3),(4,4),(5,5))
+    user_value1 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
+    user_value2 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
+    user_value3 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
+    user_value4 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
+    user_value5 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
    

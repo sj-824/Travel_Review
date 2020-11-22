@@ -24,6 +24,7 @@
           {% if user.is_authenticated %}
           <li>
             <p class = 'nav-item nav-link'>{{ user.username }}</p>
+            <a class = 'nav-item nav-link' href = "{% url 'create_review' %}">追加</a>
             <a class="nav-item nav-link" href="{% url 'logout' %}">ログアウト</a>
             <a class="nav-item nav-link" href="{% url 'user_delete' %}">退会</a>
           </li>

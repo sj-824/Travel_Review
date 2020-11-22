@@ -9,7 +9,7 @@
                 <p>{{ object.travel_date }}</p>
                 <p>{{ object.stay_time }}</p>
                 <p>{{ object.useful_review_record }}</p>
-                <p>{{ object.user_value }}</p>
+                <img src = {% url 'plot' object.pk %} width = 300 height = 300>
             </div>
         </div>
             <form action="{% url 'delete_review' object.pk %}" method = 'POST'>{% csrf_token %}
