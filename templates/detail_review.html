@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class = 'container'>
+        <div class = 'card'>
+        <h5 class = 'card-header'>{{ object.spot_name }}</h5>
+            <div class = 'card-body'>
+                <p>{{ object.prefecture }}</p>
+                <p>{{ object.travel_date }}</p>
+                <p>{{ object.stay_time }}</p>
+                <p>{{ object.useful_review_record }}</p>
+                <p>{{ object.user_value }}</p>
+            </div>
+        </div>
+            <form action="{% url 'delete_review' object.pk %}" method = 'POST'>{% csrf_token %}
+            <button class = 'btn btn-primary' type = 'submit' onclick = 'return confirm("本当に削除しますか");'>削除</button>
+            </form>
+    </div>
+
+{% endblock content %}

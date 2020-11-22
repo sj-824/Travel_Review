@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <form action="" method = 'POST'>{% csrf_token %}
+            <p>prefecture : <input type="text" name = 'prefecture'></p>
+            <p>spot_name : <input type="text" name = 'spot_name'></p>
+            <p>travel_date : <input type="text" name = 'travel_date'></p>
+            <p>stay_time : <input type="text" name = 'stay_time'></p>
+            <p>useful_review_record : <input type="text" name = 'useful_review_record'></p>
+            <p>user_value : <input type="text" name = 'user_value'></p>
+            <input type="hidden" name = 'user_name' value = '{{ user.username }}'>
+            <input type="submit" value = '作成'>
+        </form>
+    {% else %}
+        ログインしてください
+        <a href="{%url 'login'%}" class = 'btn btn-primary' role = 'button' aria-pressed = 'true'>ログイン</a>
+    {% endif %}
+{% endblock content %}
