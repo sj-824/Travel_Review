@@ -1,4 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>top page</p>
+<!-- 検索フォーム -->
+<div class="d-flex justify-content-center">
+<form class="form-inline my-2" method="GET" action="{% url 'search_list' %}">
+ <input type="text" class="form-control" name="q" value="{{request.GET.q}}">
+ <button type="submit" value="search" class="btn btn-primary">検索</button>
+</form>
+</div>
+<!-- 検索フォーム -->
+
+<!-- 検索結果の数 -->
+{% if query %}
+<p class="text-center font-weight-bold h4">{{object_list.count}}件</p>
+{% endif%}
+<!-- 検索結果の数 -->
+
+<div class = 'container'>
+{% for item in object_list %}
+<div class = 'card'>
+    <h1 clas = 'card-header'>{{ item.spot_name }}</h1>
+    <h1 clas = 'card-header'>{{ item.user_name }}</h1>
+    <div class = 'card-body'>
+    <p> {{ item.prefecture }}</p>
+    <p> {{ item.travel_date }}</p>
+    <a href="{%url 'detail_review' item.pk%} ">詳細</a>
+    </div>
+</div>
+</div>
+{% endfor %}
 {% endblock content %}

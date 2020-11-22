@@ -19,10 +19,6 @@ from django.db.models import Q
 User = get_user_model()
 # Create your views here.
 
-class Top(generic.TemplateView):
-    template_name = 'top.html'
-
-
 class Login(LoginView):
     """ログインページ"""
     form_class = LoginForm
@@ -30,7 +26,8 @@ class Login(LoginView):
 
 class Logout(LogoutView):
     """ログアウトページ"""
-    template_name = 'top.html'
+    template_name = 'list_review.html'
+    model = TravelModel
 
 class UserCreate(generic.CreateView):
     form_class = UserCreateForm

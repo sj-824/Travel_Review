@@ -6,15 +6,16 @@
 {% block content %}
 <div class = 'container'>
 {% for item in object_list %}
-<div class = 'card'>
-    <h1 clas = 'card-header'>{{ item.spot_name }}</h1>
-    <div class = 'card-body'>
-    <p> {{ item.prefecture }}</p>
-    <p> {{ item.travel_date }}</p>
-    <a href="{%url 'detail_review' item.pk%} ">詳細</a>
+    <div class = 'card'>
+        <h5 class = 'card-header'>{{ item.spot_name }}</h5>
+            <div class = 'card-body'>
+                <h6 class = 'card-title'> {{ item.user_name }}</h6>
+                <h6 class = 'card-title'> {{ item.prefecture }}</h6>
+                <h6 class = 'card-title'> {{ item.travel_date }}</h6>
+                <a href="{%url 'detail_review' item.pk%} " class = 'btn btn-primary'>詳細</a>
+            </div>
     </div>
-</div>
-</div>
 {% endfor %}
+</div>
 {% endblock content %}
 

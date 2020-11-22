@@ -12,9 +12,11 @@
                 <img src = {% url 'plot' object.pk %} width = 300 height = 300>
             </div>
         </div>
+        {% if user.username == 'object.user_name' %}
             <form action="{% url 'delete_review' object.pk %}" method = 'POST'>{% csrf_token %}
             <button class = 'btn btn-primary' type = 'submit' onclick = 'return confirm("本当に削除しますか");'>削除</button>
             </form>
+        {% endif %}
     </div>
 
 {% endblock content %}
