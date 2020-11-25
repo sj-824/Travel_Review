@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .models import User
+from django import forms
+from .models import User, ReviewModel
 
 class LoginForm(AuthenticationForm):
     """ログインフォーム"""
@@ -17,4 +18,11 @@ class UserCreateForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username',)
+
+class CreateForm(forms.ModelForm):
+    class Meta:
+        model = ReviewModel
+        fields = (
+            'user_title','user_review','user_name','user_value1','user_value2','user_value3','user_value4','user_value5',
+            )
 

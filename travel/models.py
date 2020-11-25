@@ -104,18 +104,34 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
-class TravelModel(models.Model):
-    prefecture = models.CharField(max_length = 5)
-    spot_name = models.CharField(max_length=100)
-    travel_date = models.DateField(auto_now_add = True)
-    stay_time = models.CharField(max_length = 10)
-    useful_review_record = models.TextField()
-    user_name = models.ForeignKey(User,to_field = 'username', on_delete=models.CASCADE)
 
+
+class AnimeModel(models.Model):
+    CATEGORY_GENRE = [
+        ('SF','SF'),('ギャグ','ギャグ'),('恋愛','恋愛'),('青春','青春'),('ホラー','ホラー'),('日常','日常'),('ミステリー','ミステリー')
+            ]
+    CATEGORY_CORP = [
+        ('京都アニメーション','京アニ'),('ufotable','ufotable'),('A-1 Pictures','A-1 Pictures'),('P.A.WORKS','P.A.WORKS'),('サンライズ','サンライズ'),('シャフト','シャフト')
+            ]
+
+    anime_title = models.CharField(max_length = 100)
+    anime_title_abb = models.CharField(max_length = 100)
+    anime_start = models.DateField(auto_now_add = False, null = True)
+    anime_genre = models.CharField(max_length = 15, choices = CATEGORY_GENRE)
+    anime_corp = models.CharField(max_length = 15, choices = CATEGORY_CORP)
+    anime_img = models.ImageField(upload_to = '')
+
+class ReviewModel(models.Model):
+    user_title = models.CharField(max_length = 50)
+    user_review = models.TextField()
+    post_date = models.DateField(auto_now_add = True)
+    user_name = models.ForeignKey(User,to_field = 'username', on_delete=models.CASCADE)
+    user_Anime = models.ForeignKey(AnimeModel,on_delete=models.CASCADE)
+    
     VALUE_CATEGORY = ((1,1),(2,2),(3,3),(4,4),(5,5))
     user_value1 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
     user_value2 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
     user_value3 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
     user_value4 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
     user_value5 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
-   
+    user_value_ave = models.DecimalField(null = True,max_digits = 2, decimal_places = 1)

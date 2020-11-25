@@ -3,20 +3,21 @@
 {% block content %}
     <div class = 'container'>
         <div class = 'card'>
-        <h5 class = 'card-header'>{{ object.spot_name }}</h5>
+        <h5 class = 'card-header'>{{ object.user_Anime.anime_title }}</h5>
+        <p><img src="{{object.user_Anime.anime_img.url}}" width = '300' alt=""></p>
+        <h5 class = 'card-header'>投稿者 : {{ object.user_name }}</h5>
+        <h5 class = 'card-header'>平均点 : {{ object.user_value_ave }}</h5>
             <div class = 'card-body'>
-                <p>{{ object.prefecture }}</p>
-                <p>{{ object.travel_date }}</p>
-                <p>{{ object.stay_time }}</p>
-                <p>{{ object.useful_review_record }}</p>
+                <p>{{ object.user_title }}</p>
+                <p>{{ object.user_review }}</p>
                 <img src = {% url 'plot' object.pk %} width = 300 height = 300>
             </div>
         </div>
-        {% if user.username == 'object.user_name' %}
+        {% comment %} {% if user.username == 'object.user_name' %} {% endcomment %}
             <form action="{% url 'delete_review' object.pk %}" method = 'POST'>{% csrf_token %}
             <button class = 'btn btn-primary' type = 'submit' onclick = 'return confirm("本当に削除しますか");'>削除</button>
-            </form>
-        {% endif %}
+            </form> 
+        {% comment %} {% endif %} {% endcomment %}
     </div>
 
 {% endblock content %}

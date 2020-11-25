@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <form action="" method = 'POST'>{% csrf_token %}
+            <p>アニメタイトル : <input type="text" name = 'q'></p>
+            <p>タイトル : <input type="text" name = 'user_title'></p>
+            <textarea rows = '10' cols = '60' name = 'user_review' value = ''>ここに記入してください</textarea>
+            <p>シナリオ : <input type="number" name = 'user_value1'></p>
+            <p>作画 : <input type="number" name = 'user_value2'></p>
+            <p>キャラクター : <input type="number" name = 'user_value3'></p>
+            <p>音楽 : <input type="number" name = 'user_value4'></p>
+            <p>声優 : <input type="number" name = 'user_value5'></p>
+            <input type="hidden" name = 'user_name' value = '{{ user.username }}'>
+            <input type="hidden" name = 'post_date'>
+            <input type="submit" value = '投稿する'>
+        </form>
+    {% else %}
+        ログインしてください
+        <a href="{%url 'login'%}" class = 'btn btn-primary' role = 'button' aria-pressed = 'true'>ログイン</a>
+    {% endif %}
+{% endblock content %}

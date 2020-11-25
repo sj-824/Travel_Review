@@ -23,13 +23,25 @@
 {% endif %}
 
 <div class = 'container'>
+{% if not query %}
+    <div class = 'card'>
+        <h5>今週の人気アニメ : {{high_post_anime.anime_title}}</h5>
+        <p><img class = 'img-thumbnail' src="{{high_post_anime.anime_img.url}}" width = '300' alt=""></p>
+    </div>
+{% endif %}
 {% for item in object_list %}
     <div class = 'card'>
-        <h5 class = 'card-header'>{{ item.spot_name }}</h5>
+        <h5 class = 'card-header'>{{ item.user_title }}</h5>
+        <p><img src="{{item.user_Anime.anime_img.url}}" width = '300' alt=""></p>
+        <h6 class = 'card-header'>{{ item.user_Anime.anime_title }} ({{ item.user_Anime.anime_title_abb }})</h6>
+        <h6 class = 'card-header'>{{ item.user_value_ave }}</h6>
+        <h6 class = 'card-header'>{{ item.user_Anime.anime_genre }}</h6>
+        <h6 class = 'card-header'>{{ item.user_Anime.anime_corp }}</h6>
+        <h6 class = 'card-header'>{{ item.user_Anime.anime_start }}</h6>
             <div class = 'card-body'>
                 <h6 class = 'card-title'> {{ item.user_name }}</h6>
-                <h6 class = 'card-title'> {{ item.prefecture }}</h6>
-                <h6 class = 'card-title'> {{ item.travel_date }}</h6>
+                <h6 class = 'card-title'> {{ item.user_review }}</h6>
+                <h6 class = 'card-title'> {{ item.post_date }}</h6>
                 <a href="{%url 'detail_review' item.pk%} " class = 'btn btn-primary'>詳細</a>
             </div>
     </div>

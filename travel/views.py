@@ -1,11 +1,11 @@
 from django.shortcuts import render,redirect
-from .models import TravelModel, User
+from .models import User, AnimeModel, ReviewModel
 from django.views.generic import CreateView,DeleteView,UpdateView,ListView
 from django.urls import reverse_lazy 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView)
 from django.views import generic
-from .forms import (LoginForm, UserCreateForm)
+from .forms import (LoginForm, UserCreateForm, CreateForm)
 from django.contrib.auth import login, authenticate, get_user_model, logout
 from .forms import UserCreateForm
 from django.views.decorators.http import require_POST
@@ -15,7 +15,9 @@ import matplotlib.pyplot as plt
 import io
 from django.http import HttpResponse
 import numpy as np
-from django.db.models import Q
+from django.db.models import Q, Count, Avg
+from datetime import date, timedelta
+
 User = get_user_model()
 # Create your views here.
 
@@ -27,11 +29,11 @@ class Login(LoginView):
 class Logout(LogoutView):
     """ログアウトページ"""
     template_name = 'list_review.html'
-    model = TravelModel
+    model = ReviewModel
 
 class UserCreate(generic.CreateView):
     form_class = UserCreateForm
-    success_url = reverse_lazy('top')
+    success_url = reverse_lazy('review_list')
     template_name = 'signup.html'
 
     def form_valid(self,form):
@@ -53,38 +55,57 @@ class UserDelete(LoginRequiredMixin, generic.View):
 
 def userlist(request):
     user_name = request.user.username
-    object_list = TravelModel.objects.filter(user_name = user_name)
+    object_list = ReviewModel.objects.filter(user_name = user_name)
     return render(request,'user_list.html', {'object_list' : object_list})
 
-class CreateReview(CreateView):
-    model = TravelModel
-    template_name = 'review_create.html'
-    fields = (
-        'prefecture','spot_name','stay_time','useful_review_record',
-        'user_value1','user_value2','user_value3','user_value4','user_value5',
-        'user_name'
-        )
-    success_url = reverse_lazy('user_list')
-    
+def createreview(request):
+    if request.method == 'POST':
+        form = CreateForm(request.POST)
+        query = request.POST.get('q')
+        items = AnimeModel.objects.all()
+        for item in items:
+            if query == item.anime_title or query == item.anime_title_abb:
+                Anime_object = item
+        if form.is_valid():
+            object = form.save(commit = False)
+            object.user_Anime = Anime_object
+            user_value_ave = (object.user_value1 + object.user_value2 + object.user_value3 + object.user_value4 + object.user_value5)/5
+            object.user_value_ave = user_value_ave
+            object.save()
+            return redirect('detail_review',pk = object.pk)
+    else:
+        form  = CreateForm
+    return render(request,'create_review.html',{'form' : form})
 
 def detail_review(request,pk):
-    object = TravelModel.objects.get(pk = pk)
+    object = ReviewModel.objects.get(pk = pk)
     return render (request,'detail_review.html', {'object' : object})
 
 @require_POST
 def delete_review(request,pk):
-    article = TravelModel.objects.get(pk = pk)
+    article = ReviewModel.objects.get(pk = pk)
     article.delete()
     return redirect('user_list')
 
 def list_review(request):
-    object_list = TravelModel.objects.all()
-    return render (request,'list_review.html',{'object_list' : object_list})
+    object_list = ReviewModel.objects.all().order_by('post_date')
+    today = date.today()
+    limited_day = (today-timedelta(days = 7))
+    r = ReviewModel.objects.filter(post_date__range=(limited_day,today))
+    s = r.values('user_Anime').annotate(kensu=Count('id')).order_by('-user_Anime__id')
+    num = (s[0]['user_Anime'])
+    object_1 = AnimeModel.objects.filter(id = num)
+    high_post_anime = object_1[0]
+
+    
+    
+    
+    return render (request,'list_review.html',{'object_list' : object_list,'high_post_anime' : high_post_anime})
 
 def setPlt(pk):
-    value = TravelModel.objects.get(pk = pk)
+    value = ReviewModel.objects.get(pk = pk)
     values = [value.user_value1,value.user_value2,value.user_value3,value.user_value4,value.user_value5]
-    labels = ['青春','恋愛','バトル','シリアス','面白い']
+    labels = ['シナリオ','作画','キャラクター','音楽','声優']
     rader_values = np.concatenate([values, [values[0]]])
     angles = np.linspace(0,2*np.pi,len(labels) + 1, endpoint = True)
     rgrids = [0,1,2,3,4,5]
@@ -126,11 +147,13 @@ def get_svg(request,pk):
 def search_list(request):
     query = request.GET.get('q')
     if query:
-        object_list = TravelModel.objects.all().order_by('travel_date')
+        object_list = ReviewModel.objects.all().order_by('post_date')
         object_list = object_list.filter(
-            Q(prefecture__icontains=query)|
+            Q(user_Anime__anime_title__icontains=query)|
+            Q(user_Anime__anime_title_abb__icontains=query)|
             Q(user_name__username__icontains=query)
             ).distinct()
     else:
         posts = Post.objects.all().order_by('created_at')
     return render(request, 'list_review.html', {'object_list' : object_list, 'query' : query})
+
