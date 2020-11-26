@@ -33,7 +33,7 @@ class Logout(LogoutView):
 
 class UserCreate(generic.CreateView):
     form_class = UserCreateForm
-    success_url = reverse_lazy('review_list')
+    success_url = reverse_lazy('list_review')
     template_name = 'signup.html'
 
     def form_valid(self,form):
@@ -52,6 +52,23 @@ class UserDelete(LoginRequiredMixin, generic.View):
         user.save()
         logout(self.request)
         return render(self.request,'user_delete.html')
+
+# def userrecreate(request):
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         password = request.POST.get('passward')
+#         if User.objects.get(username = name):
+#             user = User.objects.get(username = name)
+#             user.is_active = True
+#             user.save()
+#             print('A')
+#             return render(request,'user_list.html')
+#         else:
+#             return render(request,'user_recreate.html')
+#             print('accountがありません')    
+#     else:
+#         print('C')
+#         return render(request,'user_recreate.html')
 
 def userlist(request):
     user_name = request.user.username
@@ -96,10 +113,6 @@ def list_review(request):
     num = (s[0]['user_Anime'])
     object_1 = AnimeModel.objects.filter(id = num)
     high_post_anime = object_1[0]
-
-    
-    
-    
     return render (request,'list_review.html',{'object_list' : object_list,'high_post_anime' : high_post_anime})
 
 def setPlt(pk):

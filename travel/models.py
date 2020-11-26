@@ -108,7 +108,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class AnimeModel(models.Model):
     CATEGORY_GENRE = [
-        ('SF','SF'),('ギャグ','ギャグ'),('恋愛','恋愛'),('青春','青春'),('ホラー','ホラー'),('日常','日常'),('ミステリー','ミステリー')
+        ('SF','SF'),('ギャグ','ギャグ'),('恋愛','恋愛'),('青春','青春'),('ホラー','ホラー'),('日常','日常'),('ミステリー','ミステリー'),('バトル','バトル'),
             ]
     CATEGORY_CORP = [
         ('京都アニメーション','京アニ'),('ufotable','ufotable'),('A-1 Pictures','A-1 Pictures'),('P.A.WORKS','P.A.WORKS'),('サンライズ','サンライズ'),('シャフト','シャフト')

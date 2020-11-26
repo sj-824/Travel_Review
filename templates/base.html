@@ -20,23 +20,32 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
           {% if user.is_authenticated %}
-          <li>
-            <a class = 'nav-item nav-link' href = "{% url 'user_list' %}">{{ user.username }}</a>
-            <a class = 'nav-item nav-link' href = "{% url 'create_review' %}">追加</a>
-            <a class="nav-item nav-link" href="{% url 'logout' %}">ログアウト</a>
-            <a class="nav-item nav-link" href="{% url 'user_delete' %}">退会</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-          <a class="nav-item nav-link" href="{% url 'login' %}">
+            <a class = 'nav-item nav-link text-dark' href = "{% url 'user_list' %}">{{ user.username }}</a>
+            <a class = 'nav-item nav-link text-dark' href = "{% url 'create_review' %}">追加</a>
+            <a class="nav-item nav-link text-dark" href="{% url 'logout' %}">ログアウト</a>
+            <a class="nav-item nav-link text-dark" href="{% url 'user_delete' %}">退会</a>
+        <div class="d-flex justify-content-center">
+          <form class="form-inline my-2" method="GET" action="{% url 'search_list' %}">
+            <input type="text" class="form-control" name="q" value="{{request.GET.q}}">
+            <button type="submit" value="search" class="btn btn-primary">検索</button>
+          </form>
+        </div>
+      </div>
+          {% if query %}
+          <p class="text-center font-weight-bold h4">{{object_list.count}}件</p>
+          {% endif%}
+
+          {% else %}          
+          <a class="nav-item nav-link text-dark" href="{% url 'login' %}">
             ようこそ、ゲスト！ログインはこちら
           </a>
-          <a class="nav-item nav-link" href="{% url 'user_create' %}">
+          <a class="nav-item nav-link text-dark" href="{% url 'user_create' %}">
             会員登録はこちら
           </a>
-          </li>
+          {% comment %} <a class="nav-item nav-link" href="{% url 'user_recreate' %}">
+            再登録はこちら
+          </a> {% endcomment %}
           {% endif %}
         </ul>
       </div>

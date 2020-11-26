@@ -6,6 +6,7 @@ urlpatterns = [
     path('logout/',views.Logout.as_view(), name = 'logout'),
     path('user_create/',  views.UserCreate.as_view(), name = 'user_create'),
     path('user_delete/', views.UserDelete.as_view(), name = 'user_delete'),
+    # path('user_recreate/', views.userrecreate, name = 'user_recreate'),
     path('user_list/', views.userlist, name = 'user_list'),
     path('create_review/', views.createreview, name = 'create_review'),
     path('detail_review/<int:pk>',views.detail_review, name = 'detail_review'),

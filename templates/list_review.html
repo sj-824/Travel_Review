@@ -5,47 +5,50 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
-<!-- 検索フォーム -->
-<div class="d-flex justify-content-center">
-<form class="form-inline my-2" method="GET" action="{% url 'search_list' %}">
- <input type="text" class="form-control" name="q" value="{{request.GET.q}}">
- <button type="submit" value="search" class="btn btn-primary">検索</button>
-</form>
-</div>
-<!-- 検索フォーム -->
-
-<!-- 検索結果の数 -->
-{% if query %}
-<p class="text-center font-weight-bold h4">{{object_list.count}}件</p>
-{% endif%}
-<!-- 検索結果の数 -->
-{% endif %}
-
-<div class = 'container'>
-{% if not query %}
+<div class = 'container py-4'>
+    {% if not query and user.is_authenticated %}
     <div class = 'card'>
-        <h5>今週の人気アニメ : {{high_post_anime.anime_title}}</h5>
-        <p><img class = 'img-thumbnail' src="{{high_post_anime.anime_img.url}}" width = '300' alt=""></p>
-    </div>
-{% endif %}
-{% for item in object_list %}
-    <div class = 'card'>
-        <h5 class = 'card-header'>{{ item.user_title }}</h5>
-        <p><img src="{{item.user_Anime.anime_img.url}}" width = '300' alt=""></p>
-        <h6 class = 'card-header'>{{ item.user_Anime.anime_title }} ({{ item.user_Anime.anime_title_abb }})</h6>
-        <h6 class = 'card-header'>{{ item.user_value_ave }}</h6>
-        <h6 class = 'card-header'>{{ item.user_Anime.anime_genre }}</h6>
-        <h6 class = 'card-header'>{{ item.user_Anime.anime_corp }}</h6>
-        <h6 class = 'card-header'>{{ item.user_Anime.anime_start }}</h6>
-            <div class = 'card-body'>
-                <h6 class = 'card-title'> {{ item.user_name }}</h6>
-                <h6 class = 'card-title'> {{ item.user_review }}</h6>
-                <h6 class = 'card-title'> {{ item.post_date }}</h6>
-                <a href="{%url 'detail_review' item.pk%} " class = 'btn btn-primary'>詳細</a>
+        <h5 class = 'card-header'>今週の人気アニメ : {{high_post_anime.anime_title}}</h5>
+            <div class = 'row'>
+                <div class = 'col-sm-4'>
+                    <img class = 'img-thumbnail' src="{{high_post_anime.anime_img.url}}" width = '300' alt="">
+                </div>
+                <div class = 'col-sm-8'>
+                    <p>{{ high_post_anime.anime_title }} ({{ high_post_anime.anime_title_abb }})</p>
+                    <p>{{ high_post_anime.anime_genre }}</p>
+                    <p>{{ high_post_anime.anime_corp }}</p>
+                    <p>{{ high_post_anime.anime_start }}</p>
+                </div>
             </div>
     </div>
-{% endfor %}
+    {% endif %}
+
+
+    <div class = 'card'>
+        {% for item in object_list %}
+            <h5 class = 'card-header'>評価 : {{ item.user_value_ave }} 　　{{ item.user_title }}</h5>
+                <div class = 'row'>
+                    <div class = 'col-sm-3'>
+                        <img class = 'img-thumbnail' src="{{item.user_Anime.anime_img.url}}" width = '300' alt="">
+                    </div>
+                    <div class = 'col-sm-9'>
+                        <p>{{ item.user_Anime.anime_title }} ({{ item.user_Anime.anime_title_abb }})</p>
+                        <p>ジャンル : {{ item.user_Anime.anime_genre }}</p>
+                        <p>制作会社 : {{ item.user_Anime.anime_corp }}</p>
+                        <p>放送開始日 : {{ item.user_Anime.anime_start }}</p>
+                    </div>
+                </div>
+            <div class = 'card-body'>
+                <div class = 'row'>
+                    <div class = 'col-sm-12'>
+                        <p class = 'card-title'> {{ item.user_review }}<p>
+                    </div>
+                </div>
+                    <h6 class = 'card-title'> {{ item.user_name.username}} {{ item.post_date }}</h6>
+                    <a href="{%url 'detail_review' item.pk%} " class = 'btn btn-primary'>詳細</a>       
+            </div>
+        {% endfor %} 
+    </div>
 </div>
 
 {% endblock content %}
