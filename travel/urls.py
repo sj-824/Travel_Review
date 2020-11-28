@@ -14,4 +14,5 @@ urlpatterns = [
     path('',views.list_review, name = 'list_review'),
     path('detail/<int:pk>/plot',views.get_svg,name = 'plot'),
     path('search_list/',views.search_list, name  = 'search_list'),
+    path('user_profile_create/',views.user_profile_create, name = 'user_profile_create'),
     ]

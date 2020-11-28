@@ -18,6 +18,17 @@
             <button class = 'btn btn-primary' type = 'submit' onclick = 'return confirm("本当に削除しますか");'>削除</button>
             </form> 
         {% comment %} {% endif %} {% endcomment %}
+        <h5 class = 'card-header'>レビュー者のお気に入り作品</h5>
+        
+        <div class = 'card'>
+            <div class = 'row'>
+                {% for item in object_list %}
+                <div class  = 'col-sm-4'>
+                    <p>{{ item.user_Anime.anime_title }}</p>
+                    <img src="{{item.user_Anime.anime_img.url}}" width =200  alt="">
+                </div>
+                {% endfor %}   
+            </div>
+        </div>
     </div>
-
 {% endblock content %}

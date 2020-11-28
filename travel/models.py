@@ -124,8 +124,8 @@ class AnimeModel(models.Model):
 class ReviewModel(models.Model):
     user_title = models.CharField(max_length = 50)
     user_review = models.TextField()
-    post_date = models.DateField(auto_now_add = True)
-    user_name = models.ForeignKey(User,to_field = 'username', on_delete=models.CASCADE)
+    post_date = models.DateTimeField(auto_now_add = True)
+    user_name = models.ForeignKey(User,to_field = 'username', on_delete=models.CASCADE, related_name = 'user_name')
     user_Anime = models.ForeignKey(AnimeModel,on_delete=models.CASCADE)
     
     VALUE_CATEGORY = ((1,1),(2,2),(3,3),(4,4),(5,5))
@@ -135,3 +135,71 @@ class ReviewModel(models.Model):
     user_value4 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
     user_value5 = models.IntegerField(choices = VALUE_CATEGORY,null = True)
     user_value_ave = models.DecimalField(null = True,max_digits = 2, decimal_places = 1)
+
+class Access_Counter(models.Model):
+    access_name = models.ForeignKey(User,to_field = 'username',on_delete = models.CASCADE)
+    review = models.ForeignKey(ReviewModel, on_delete = models.CASCADE)
+
+class User_Profile(models.Model):
+    user_name = models.ForeignKey(User,to_field = 'username', on_delete = models.CASCADE)
+    profile = models.TextField()
+
+    count_SF = models.IntegerField(null = True, blank = True, default = 0)
+    SF_sum_value1 = models.IntegerField(null = True,blank = True, default = 0)
+    SF_sum_value2 = models.IntegerField(null = True,blank = True, default = 0)
+    SF_sum_value3 = models.IntegerField(null = True,blank = True, default = 0)
+    SF_sum_value4 = models.IntegerField(null = True,blank = True, default = 0)
+    SF_sum_value5 = models.IntegerField(null = True,blank = True, default = 0)
+
+    count_gag = models.IntegerField(null = True, blank = True, default = 0)
+    gag_sum_value1 = models.IntegerField(null = True,blank = True, default = 0)
+    gag_sum_value2 = models.IntegerField(null = True,blank = True, default = 0)
+    gag_sum_value3 = models.IntegerField(null = True,blank = True, default = 0)
+    gag_sum_value4 = models.IntegerField(null = True,blank = True, default = 0)
+    gag_sum_value5 = models.IntegerField(null = True,blank = True, default = 0)
+
+    count_love = models.IntegerField(null = True, blank = True, default = 0)
+    love_sum_value1 = models.IntegerField(null = True,blank = True, default = 0)
+    love_sum_value2 = models.IntegerField(null = True,blank = True, default = 0)
+    love_sum_value3 = models.IntegerField(null = True,blank = True, default = 0)
+    love_sum_value4 = models.IntegerField(null = True,blank = True, default = 0)
+    love_sum_value5 = models.IntegerField(null = True,blank = True, default = 0)
+
+    count_youth = models.IntegerField(null = True, blank = True, default = 0)
+    youth_sum_value1 = models.IntegerField(null = True,blank = True, default = 0)
+    youth_sum_value2 = models.IntegerField(null = True,blank = True, default = 0)
+    youth_sum_value3 = models.IntegerField(null = True,blank = True, default = 0)
+    youth_sum_value4 = models.IntegerField(null = True,blank = True, default = 0)
+    youth_sum_value5 = models.IntegerField(null = True,blank = True, default = 0)
+
+    count_horor = models.IntegerField(null = True, blank = True, default = 0)
+    horor_sum_value1 = models.IntegerField(null = True,blank = True, default = 0)
+    horor_sum_value2 = models.IntegerField(null = True,blank = True, default = 0)
+    horor_sum_value3 = models.IntegerField(null = True,blank = True, default = 0)
+    horor_sum_value4 = models.IntegerField(null = True,blank = True, default = 0)
+    horor_sum_value5 = models.IntegerField(null = True,blank = True, default = 0)
+
+    count_everyday = models.IntegerField(null = True, blank = True, default = 0)
+    everyday_sum_value1 = models.IntegerField(null = True,blank = True, default = 0)
+    everyday_sum_value2 = models.IntegerField(null = True,blank = True, default = 0)
+    everyday_sum_value3 = models.IntegerField(null = True,blank = True, default = 0)
+    everyday_sum_value4 = models.IntegerField(null = True,blank = True, default = 0)
+    everyday_sum_value5 = models.IntegerField(null = True,blank = True, default = 0)
+
+    count_mystery = models.IntegerField(null = True, blank = True, default = 0)
+    mystery_sum_value1 = models.IntegerField(null = True,blank = True, default = 0)
+    mystery_sum_value2 = models.IntegerField(null = True,blank = True, default = 0)
+    mystery_sum_value3 = models.IntegerField(null = True,blank = True, default = 0)
+    mystery_sum_value4 = models.IntegerField(null = True,blank = True, default = 0)
+    mystery_sum_value5 = models.IntegerField(null = True,blank = True, default = 0)
+
+    count_battle = models.IntegerField(null = True, blank = True, default = 0)
+    battle_sum_value1 = models.IntegerField(null = True,blank = True, default = 0)
+    battle_sum_value2 = models.IntegerField(null = True,blank = True, default = 0)
+    battle_sum_value3 = models.IntegerField(null = True,blank = True, default = 0)
+    battle_sum_value4 = models.IntegerField(null = True,blank = True, default = 0)
+    battle_sum_value5 = models.IntegerField(null = True,blank = True, default = 0)
+
+
+
+

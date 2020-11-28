@@ -23,6 +23,23 @@
     </div>
     {% endif %}
 
+    {% if not query and user.is_authenticated %}
+    <div class = 'card'>
+        <h5 class = 'card-header'>あなたへのおすすめアニメ : {{high_similarity_anime.anime_title}}</h5>
+            <div class = 'row'>
+                <div class = 'col-sm-4'>
+                    <img class = 'img-thumbnail' src="{{high_similarity_anime.anime_img.url}}" width = '300' alt="">
+                </div>
+                <div class = 'col-sm-8'>
+                    <p>{{ high_similarity_anime.anime_title }} ({{ high_similarity_anime.anime_title_abb }})</p>
+                    <p>{{ high_similarity_anime.anime_genre }}</p>
+                    <p>{{ high_similarity_anime.anime_corp }}</p>
+                    <p>{{ high_similarity_anime.anime_start }}</p>
+                </div>
+            </div>
+    </div>
+    {% endif %}
+
 
     <div class = 'card'>
         {% for item in object_list %}
